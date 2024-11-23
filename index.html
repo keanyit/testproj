@@ -138,7 +138,7 @@
         <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
             <label for="fileInput">Choose a file to upload:</label>
             <input type="file" id="fileInput" name="file" accept="image/*" required><br>
-
+            <input type="hidden" id="sessionId" name="sessionId">
             <button type="submit">Upload</button>
         </form>
 
@@ -151,6 +151,8 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('sessionId');
         }
+        
+        console.log(getSessionIdFromURL());
 
         // Set the session ID in the hidden input field when the page loads
         document.addEventListener('DOMContentLoaded', function() {
