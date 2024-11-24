@@ -17,7 +17,24 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({ storage });
+// File type filter to allow only images (PNG, JPG, JPEG, GIF)
+const fileFilter = (req, file, cb) => {
+  // Accept files only if they are images (PNG, JPG, JPEG, or GIF)
+  const allowedTypes = /jpeg|jpg|png/;
+  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = allowedTypes.test(file.mimetype);
+
+  if (extname && mimetype) {
+    return cb(null, true);
+  } else {
+    return cb(new Error('Invalid file type. Only PNG, JPG, JPEG, GIF files are allowed.'));
+  }
+};
+
+const upload = multer({ 
+  storage: storage,
+  fileFilter: fileFilter // Apply the file filter
+});
 
 // Generate a Key
 router.post('/generate-key', async (req, res) => {
